@@ -1,0 +1,24 @@
+{
+	"name": "DestinationDataset_fqe",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "unstatisticsqlsakdevlinkedservice",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"cw_table": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "task",
+			"table": {
+				"value": "@dataset().cw_table",
+				"type": "Expression"
+			}
+		}
+	}
+}
