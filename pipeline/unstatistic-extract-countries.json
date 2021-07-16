@@ -242,18 +242,6 @@
 						"dependencyConditions": [
 							"Succeeded"
 						]
-					},
-					{
-						"activity": "Set PipelineExecutionDescription",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
-					{
-						"activity": "Set PipelineExecutionStatus",
-						"dependencyConditions": [
-							"Succeeded"
-						]
 					}
 				],
 				"policy": {
@@ -334,6 +322,69 @@
 				"typeProperties": {
 					"variableName": "PipelineExecutionStatus",
 					"value": "failed"
+				}
+			},
+			{
+				"name": "SP PipelineExecutionHistory_Update_copy1",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "Set PipelineExecutionDescription",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Set PipelineExecutionStatus",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[adf].[usp_PipelineExecutionHistory_Update]",
+					"storedProcedureParameters": {
+						"Description": {
+							"value": {
+								"value": "@variables('PipelineExecutionDescription')",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"PipelineName": {
+							"value": {
+								"value": "@pipeline().Pipeline",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"PipelineRunId": {
+							"value": {
+								"value": "@pipeline().RunId",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Status": {
+							"value": {
+								"value": "@variables('PipelineExecutionStatus')",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "unstatisticsqlsakdevlinkedservice",
+					"type": "LinkedServiceReference"
 				}
 			}
 		],
