@@ -312,9 +312,9 @@
 				"type": "SetVariable",
 				"dependsOn": [
 					{
-						"activity": "Copy countries to SQL",
+						"activity": "Set PipelineExecutionDescription",
 						"dependencyConditions": [
-							"Failed"
+							"Succeeded"
 						]
 					}
 				],
@@ -325,15 +325,9 @@
 				}
 			},
 			{
-				"name": "SP PipelineExecutionHistory_Update_copy1",
+				"name": "SP PipelineExecutionHistory_Update_2",
 				"type": "SqlServerStoredProcedure",
 				"dependsOn": [
-					{
-						"activity": "Set PipelineExecutionDescription",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
 					{
 						"activity": "Set PipelineExecutionStatus",
 						"dependencyConditions": [
