@@ -135,6 +135,95 @@
 					"enableStaging": false,
 					"translator": {
 						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"sink": {
+									"name": "FileName",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"sink": {
+									"name": "SourceItemId",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"sink": {
+									"name": "RegionName",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"sink": {
+									"name": "SubRegionName",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"sink": {
+									"name": "CountryName",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Year",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Year",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Count",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Count",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"sink": {
+									"name": "sysCreatedAt",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								}
+							},
+							{
+								"sink": {
+									"name": "sysChangedAt",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								}
+							},
+							{
+								"sink": {
+									"name": "sysChangedBy",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"sink": {
+									"name": "sysCreatedBy",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							}
+						],
 						"typeConversion": true,
 						"typeConversionSettings": {
 							"allowDataTruncation": true,
@@ -145,7 +234,21 @@
 				"inputs": [
 					{
 						"referenceName": "src_csv_uncrimefile",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"container": {
+								"value": "@variables('container')",
+								"type": "Expression"
+							},
+							"path": {
+								"value": "@variables('path')",
+								"type": "Expression"
+							},
+							"filename": {
+								"value": "@variables('filename')",
+								"type": "Expression"
+							}
+						}
 					}
 				],
 				"outputs": [
@@ -158,6 +261,12 @@
 		],
 		"parameters": {
 			"filename": {
+				"type": "string"
+			},
+			"path": {
+				"type": "string"
+			},
+			"container": {
 				"type": "string"
 			}
 		},
