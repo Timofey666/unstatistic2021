@@ -259,17 +259,6 @@
 				]
 			}
 		],
-		"parameters": {
-			"filename": {
-				"type": "string"
-			},
-			"path": {
-				"type": "string"
-			},
-			"container": {
-				"type": "string"
-			}
-		},
 		"variables": {
 			"PipelineExecutionDescription": {
 				"type": "String",
