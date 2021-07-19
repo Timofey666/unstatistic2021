@@ -42,31 +42,6 @@
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
-		"schema": [
-			{
-				"name": "Region",
-				"type": "String"
-			},
-			{
-				"name": "Sub Region",
-				"type": "String"
-			},
-			{
-				"name": "Country",
-				"type": "String"
-			},
-			{
-				"name": "Count",
-				"type": "String"
-			},
-			{
-				"name": "Rate",
-				"type": "String"
-			},
-			{
-				"name": "Year",
-				"type": "String"
-			}
-		]
+		"schema": []
 	}
 }
