@@ -137,20 +137,11 @@
 						"type": "TabularTranslator",
 						"mappings": [
 							{
-								"sink": {
-									"name": "FileName",
+								"source": {
+									"name": "Region",
 									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"sink": {
-									"name": "SourceItemId",
-									"type": "Int32",
-									"physicalType": "int"
-								}
-							},
-							{
+									"physicalType": "String"
+								},
 								"sink": {
 									"name": "RegionName",
 									"type": "String",
@@ -158,6 +149,11 @@
 								}
 							},
 							{
+								"source": {
+									"name": "Sub Region",
+									"type": "String",
+									"physicalType": "String"
+								},
 								"sink": {
 									"name": "SubRegionName",
 									"type": "String",
@@ -165,6 +161,11 @@
 								}
 							},
 							{
+								"source": {
+									"name": "Country",
+									"type": "String",
+									"physicalType": "String"
+								},
 								"sink": {
 									"name": "CountryName",
 									"type": "String",
@@ -193,34 +194,6 @@
 									"name": "Count",
 									"type": "String",
 									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"sink": {
-									"name": "sysCreatedAt",
-									"type": "DateTime",
-									"physicalType": "datetime"
-								}
-							},
-							{
-								"sink": {
-									"name": "sysChangedAt",
-									"type": "DateTime",
-									"physicalType": "datetime"
-								}
-							},
-							{
-								"sink": {
-									"name": "sysChangedBy",
-									"type": "Int32",
-									"physicalType": "int"
-								}
-							},
-							{
-								"sink": {
-									"name": "sysCreatedBy",
-									"type": "Int32",
-									"physicalType": "int"
 								}
 							}
 						],
