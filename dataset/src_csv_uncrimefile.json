@@ -16,7 +16,7 @@
 			},
 			"filename": {
 				"type": "string",
-				"defaultValue": "burglary.csv"
+				"defaultValue": "burglary"
 			}
 		},
 		"annotations": [],
@@ -42,6 +42,31 @@
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
-		"schema": []
+		"schema": [
+			{
+				"name": "Region",
+				"type": "String"
+			},
+			{
+				"name": "Sub Region",
+				"type": "String"
+			},
+			{
+				"name": "Country",
+				"type": "String"
+			},
+			{
+				"name": "Count",
+				"type": "String"
+			},
+			{
+				"name": "Rate",
+				"type": "String"
+			},
+			{
+				"name": "Year",
+				"type": "String"
+			}
+		]
 	}
 }
