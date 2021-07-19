@@ -1,0 +1,160 @@
+{
+	"name": "unstatistic-extract-uncrime",
+	"properties": {
+		"description": "Extract data from CSV into SQL",
+		"activities": [
+			{
+				"name": "SP PipelineExecutionHistory_Create",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[adf].[usp_PipelineExecutionHistory_Create]",
+					"storedProcedureParameters": {
+						"PipelineName": {
+							"value": {
+								"value": "@pipeline().Pipeline",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"PipelineRunId": {
+							"value": {
+								"value": "@pipeline().RunId",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "unstatisticsqlsakdevlinkedservice",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "SP PipelineExecutionHistory_Update",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "Copy uncrime to SQL",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[adf].[usp_PipelineExecutionHistory_Update]",
+					"storedProcedureParameters": {
+						"Description": {
+							"value": {
+								"value": "@variables('PipelineExecutionDescription')",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"PipelineName": {
+							"value": {
+								"value": "@pipeline().Pipeline",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"PipelineRunId": {
+							"value": {
+								"value": "@pipeline().RunId",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Status": {
+							"value": {
+								"value": "@variables('PipelineExecutionStatus')",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "unstatisticsqlsakdevlinkedservice",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Copy uncrime to SQL",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "SP PipelineExecutionHistory_Create",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_src_dst_uncrimefile",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"parameters": {
+			"filename": {
+				"type": "string"
+			}
+		},
+		"variables": {
+			"PipelineExecutionDescription": {
+				"type": "String",
+				"defaultValue": "succeed"
+			},
+			"PipelineExecutionStatus": {
+				"type": "String",
+				"defaultValue": "succeed"
+			}
+		},
+		"folder": {
+			"name": "unstatistic"
+		},
+		"annotations": []
+	}
+}
