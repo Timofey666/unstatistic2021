@@ -42,7 +42,14 @@
 			{
 				"name": "SP PipelineExecutionHistory_Update",
 				"type": "SqlServerStoredProcedure",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "unstatistic-extract-countries",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,
@@ -87,6 +94,26 @@
 				"linkedServiceName": {
 					"referenceName": "unstatisticsqlsakdevlinkedservice",
 					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "unstatistic-extract-countries",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "SP PipelineExecutionHistory_Create",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "unstatistic-extract-countries",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
 				}
 			}
 		],
