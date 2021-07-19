@@ -1,5 +1,5 @@
 {
-	"name": "ds_src_dst_uncrimefile",
+	"name": "src_dst_uncrimefile",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "unstatisticstac",
@@ -25,7 +25,7 @@
 			"location": {
 				"type": "AzureBlobStorageLocation",
 				"fileName": {
-					"value": "@dataset().filename",
+					"value": "@concat(dataset().filename,'.csv')",
 					"type": "Expression"
 				},
 				"folderPath": {
