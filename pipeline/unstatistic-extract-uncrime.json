@@ -129,7 +129,6 @@
 					},
 					"sink": {
 						"type": "AzureSqlSink",
-						"preCopyScript": "truncate table staging.uncrime_untyped;",
 						"writeBehavior": "insert",
 						"disableMetricsCollection": false
 					},
@@ -170,6 +169,18 @@
 			"PipelineExecutionStatus": {
 				"type": "String",
 				"defaultValue": "succeed"
+			},
+			"container": {
+				"type": "String",
+				"defaultValue": "unstatistic-sourcefiles"
+			},
+			"path": {
+				"type": "String",
+				"defaultValue": "CrimeStat.Source.UNCrime"
+			},
+			"filename": {
+				"type": "String",
+				"defaultValue": "burglary"
 			}
 		},
 		"folder": {
