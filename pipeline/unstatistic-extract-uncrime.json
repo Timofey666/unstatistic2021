@@ -101,7 +101,19 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "SP PipelineExecutionHistory_Create",
+						"activity": "Set filename",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Set path",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Set container",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -230,6 +242,98 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "Get Configuration",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "SP PipelineExecutionHistory_Create",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderStoredProcedureName": "[adf].[usp_Configuration_Get]",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "dst_sql_dummy",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "Set container",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Get Configuration",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "container",
+					"value": {
+						"value": "@activity('Get Configuration').output.firstrow.container",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Set path",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Get Configuration",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "path",
+					"value": {
+						"value": "@activity('Get Configuration').output.firstrow.path",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Set filename",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Get Configuration",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "filename",
+					"value": {
+						"value": "@pipeline().parameters.filename",
+						"type": "Expression"
+					}
+				}
 			}
 		],
 		"parameters": {
