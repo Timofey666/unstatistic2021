@@ -245,7 +245,7 @@
 						]
 					},
 					{
-						"activity": "Set PipelineExecutionStatus_copy1",
+						"activity": "Set PipelineExecutionDescription_copy1",
 						"dependencyConditions": [
 							"Succeeded",
 							"Skipped"
@@ -312,7 +312,10 @@
 				"userProperties": [],
 				"typeProperties": {
 					"variableName": "PipelineExecutionDescription",
-					"value": "failed"
+					"value": {
+						"value": "@activity('Copy countries to SQL').output.errors[0].Message",
+						"type": "Expression"
+					}
 				}
 			},
 			{
@@ -346,23 +349,6 @@
 				"userProperties": [],
 				"typeProperties": {
 					"variableName": "PipelineExecutionDescription",
-					"value": "succeed"
-				}
-			},
-			{
-				"name": "Set PipelineExecutionStatus_copy1",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Set PipelineExecutionDescription_copy1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "PipelineExecutionStatus",
 					"value": "succeed"
 				}
 			}
