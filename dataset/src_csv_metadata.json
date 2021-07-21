@@ -1,0 +1,48 @@
+{
+	"name": "src_csv_metadata",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "unstatisticstac",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "CrimeStat.Source.UNCrime",
+				"container": "unstatistic-sourcefiles"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Region",
+				"type": "String"
+			},
+			{
+				"name": "Sub Region",
+				"type": "String"
+			},
+			{
+				"name": "Country",
+				"type": "String"
+			},
+			{
+				"name": "Count",
+				"type": "String"
+			},
+			{
+				"name": "Rate",
+				"type": "String"
+			},
+			{
+				"name": "Year",
+				"type": "String"
+			}
+		]
+	}
+}
