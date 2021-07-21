@@ -294,7 +294,7 @@
 								"waitOnCompletion": true,
 								"parameters": {
 									"filename": {
-										"value": "@variables('filename')",
+										"value": "@replace(variables('filename'),'.csv','')",
 										"type": "Expression"
 									}
 								}
