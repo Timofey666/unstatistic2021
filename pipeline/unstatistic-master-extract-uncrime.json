@@ -42,14 +42,7 @@
 			{
 				"name": "SP PipelineExecutionHistory_Update",
 				"type": "SqlServerStoredProcedure",
-				"dependsOn": [
-					{
-						"activity": "Update filename",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,
@@ -95,153 +88,6 @@
 					"referenceName": "unstatisticsqlsakdevlinkedservice",
 					"type": "LinkedServiceReference"
 				}
-			},
-			{
-				"name": "Copy uncrime to SQL",
-				"type": "Copy",
-				"dependsOn": [
-					{
-						"activity": "Set filename",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
-					{
-						"activity": "Set path",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
-					{
-						"activity": "Set container",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "7.00:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "DelimitedTextSource",
-						"storeSettings": {
-							"type": "AzureBlobStorageReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false
-						},
-						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
-						}
-					},
-					"sink": {
-						"type": "AzureSqlSink",
-						"writeBehavior": "insert",
-						"disableMetricsCollection": false
-					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"name": "Region",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "RegionName",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "Sub Region",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "SubRegionName",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "Country",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "CountryName",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "Year",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "Year",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "Count",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "Count",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							}
-						],
-						"typeConversion": true,
-						"typeConversionSettings": {
-							"allowDataTruncation": true,
-							"treatBooleanAsNumber": false
-						}
-					}
-				},
-				"inputs": [
-					{
-						"referenceName": "src_csv_uncrimefile",
-						"type": "DatasetReference",
-						"parameters": {
-							"container": {
-								"value": "@variables('container')",
-								"type": "Expression"
-							},
-							"path": {
-								"value": "@variables('path')",
-								"type": "Expression"
-							},
-							"filename": {
-								"value": "@variables('filename')",
-								"type": "Expression"
-							}
-						}
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "dst_sql_uncrime",
-						"type": "DatasetReference"
-					}
-				]
 			},
 			{
 				"name": "Get Configuration",
@@ -336,11 +182,23 @@
 				}
 			},
 			{
-				"name": "Update filename",
+				"name": "Truncate uncrime_untyped",
 				"type": "Lookup",
 				"dependsOn": [
 					{
-						"activity": "Copy uncrime to SQL",
+						"activity": "Set path",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Set container",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Set filename",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -357,7 +215,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "update staging.uncrime_untyped\nset [FileName] = 'burglary'\nwhere [FileName] is null;\nselect 1;",
+						"sqlReaderQuery": "truncate table staging.uncrime_untyped;\nselect 1;",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -368,11 +226,6 @@
 				}
 			}
 		],
-		"parameters": {
-			"filename": {
-				"type": "string"
-			}
-		},
 		"variables": {
 			"PipelineExecutionDescription": {
 				"type": "String",
