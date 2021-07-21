@@ -247,16 +247,13 @@
 				"defaultValue": "succeed"
 			},
 			"container": {
-				"type": "String",
-				"defaultValue": "unstatistic-sourcefiles"
+				"type": "String"
 			},
 			"path": {
-				"type": "String",
-				"defaultValue": "CrimeStat.Source.UNCrime"
+				"type": "String"
 			},
 			"filename": {
-				"type": "String",
-				"defaultValue": "burglary"
+				"type": "String"
 			}
 		},
 		"folder": {
