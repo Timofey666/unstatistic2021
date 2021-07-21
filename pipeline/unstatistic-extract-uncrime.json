@@ -232,6 +232,11 @@
 				]
 			}
 		],
+		"parameters": {
+			"filename": {
+				"type": "string"
+			}
+		},
 		"variables": {
 			"PipelineExecutionDescription": {
 				"type": "String",
