@@ -42,7 +42,14 @@
 			{
 				"name": "SP PipelineExecutionHistory_Update",
 				"type": "SqlServerStoredProcedure",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Get Metadata",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,
@@ -162,26 +169,6 @@
 				}
 			},
 			{
-				"name": "Set filename",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Get Configuration",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "filename",
-					"value": {
-						"value": "@pipeline().parameters.filename",
-						"type": "Expression"
-					}
-				}
-			},
-			{
 				"name": "Truncate uncrime_untyped",
 				"type": "Lookup",
 				"dependsOn": [
@@ -193,12 +180,6 @@
 					},
 					{
 						"activity": "Set container",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
-					{
-						"activity": "Set filename",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -222,6 +203,42 @@
 					"dataset": {
 						"referenceName": "dst_sql_dummy",
 						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "Get Metadata",
+				"type": "GetMetadata",
+				"dependsOn": [
+					{
+						"activity": "Truncate uncrime_untyped",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "src_csv_metadata",
+						"type": "DatasetReference"
+					},
+					"fieldList": [
+						"childItems"
+					],
+					"storeSettings": {
+						"type": "AzureBlobStorageReadSettings",
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "DelimitedTextReadSettings"
 					}
 				}
 			}
