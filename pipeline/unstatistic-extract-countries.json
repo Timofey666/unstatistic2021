@@ -238,9 +238,17 @@
 				"type": "SqlServerStoredProcedure",
 				"dependsOn": [
 					{
-						"activity": "Copy countries to SQL",
+						"activity": "Set PipelineExecutionStatus",
 						"dependencyConditions": [
+							"Skipped",
 							"Succeeded"
+						]
+					},
+					{
+						"activity": "Set PipelineExecutionStatus_copy1",
+						"dependencyConditions": [
+							"Succeeded",
+							"Skipped"
 						]
 					}
 				],
@@ -325,71 +333,46 @@
 				}
 			},
 			{
-				"name": "SP PipelineExecutionHistory_Update_2",
-				"type": "SqlServerStoredProcedure",
+				"name": "Set PipelineExecutionDescription_copy1",
+				"type": "SetVariable",
 				"dependsOn": [
 					{
-						"activity": "Set PipelineExecutionStatus",
+						"activity": "Copy countries to SQL",
 						"dependencyConditions": [
 							"Succeeded"
 						]
 					}
 				],
-				"policy": {
-					"timeout": "7.00:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
 				"userProperties": [],
 				"typeProperties": {
-					"storedProcedureName": "[adf].[usp_PipelineExecutionHistory_Update]",
-					"storedProcedureParameters": {
-						"Description": {
-							"value": {
-								"value": "@variables('PipelineExecutionDescription')",
-								"type": "Expression"
-							},
-							"type": "String"
-						},
-						"PipelineName": {
-							"value": {
-								"value": "@pipeline().Pipeline",
-								"type": "Expression"
-							},
-							"type": "String"
-						},
-						"PipelineRunId": {
-							"value": {
-								"value": "@pipeline().RunId",
-								"type": "Expression"
-							},
-							"type": "String"
-						},
-						"Status": {
-							"value": {
-								"value": "@variables('PipelineExecutionStatus')",
-								"type": "Expression"
-							},
-							"type": "String"
-						}
+					"variableName": "PipelineExecutionDescription",
+					"value": "succeed"
+				}
+			},
+			{
+				"name": "Set PipelineExecutionStatus_copy1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Set PipelineExecutionDescription_copy1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
 					}
-				},
-				"linkedServiceName": {
-					"referenceName": "unstatisticsqlsakdevlinkedservice",
-					"type": "LinkedServiceReference"
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "PipelineExecutionStatus",
+					"value": "succeed"
 				}
 			}
 		],
 		"variables": {
 			"PipelineExecutionDescription": {
-				"type": "String",
-				"defaultValue": "succeed"
+				"type": "String"
 			},
 			"PipelineExecutionStatus": {
-				"type": "String",
-				"defaultValue": "succeed"
+				"type": "String"
 			}
 		},
 		"folder": {
