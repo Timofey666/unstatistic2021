@@ -358,7 +358,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "update staging.uncrime_untyped\nset [FileName] = '@variables('filename')'\nwhere [FileName] is null;\nselect 1;",
+							"value": "update staging.uncrime_untyped\nset [FileName] = '@{variables('filename')}'\nwhere [FileName] is null;\nselect 1;",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
