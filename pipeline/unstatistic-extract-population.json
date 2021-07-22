@@ -36,7 +36,7 @@
 					},
 					"sink": {
 						"type": "AzureSqlSink",
-						"preCopyScript": "truncate table staging.countriesref_untyped;",
+						"preCopyScript": "truncate table staging.population_untyped;",
 						"writeBehavior": "insert",
 						"disableMetricsCollection": false
 					},
@@ -186,13 +186,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "src_csv_countries",
+						"referenceName": "src_csv_population",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "dst_sql_countries",
+						"referenceName": "dst_sql_population",
 						"type": "DatasetReference"
 					}
 				]
