@@ -1,0 +1,60 @@
+{
+	"name": "src_dimgeography",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "unstatisticsqlsakdevlinkedservice",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "DimGeographyKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Region",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SubRegion",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Country",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CountryCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "sysCreatedAt",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "sysChangedAt",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "sysChangedBy",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "sysCreatedBy",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dwh",
+			"table": "DimGeography"
+		}
+	}
+}
