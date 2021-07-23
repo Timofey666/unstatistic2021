@@ -1,0 +1,28 @@
+{
+	"name": "pq_uncrimeuntyped",
+	"properties": {
+		"type": "WranglingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"name": "src_uncrimeuntyped",
+					"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~>  src_uncrimeuntyped",
+					"dataset": {
+						"referenceName": "src_uncrimeuntyped",
+						"type": "DatasetReference"
+					}
+				},
+				{
+					"name": "src_dimgeography",
+					"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~>  src_dimgeography",
+					"dataset": {
+						"referenceName": "src_dimgeography",
+						"type": "DatasetReference"
+					}
+				}
+			],
+			"sinks": [],
+			"script": "section Section1;\r\nshared src_uncrimeuntyped = let\r\n  AdfDoc = Sql.Database(\"unstatisticsqlsakdev.database.windows.net\", \"unstatistics.dwh\", [CreateNavigationProperties = false]),\r\n  InputTable = AdfDoc{[Schema = \"staging\", Item = \"uncrime_untyped\"]}[Data]\r\nin\r\n  InputTable;\r\nshared src_dimgeography = let\r\n  AdfDoc = Sql.Database(\"unstatisticsqlsakdev.database.windows.net\", \"unstatistics.dwh\", [CreateNavigationProperties = false]),\r\n  InputTable = AdfDoc{[Schema = \"dwh\", Item = \"DimGeography\"]}[Data]\r\nin\r\n  InputTable;\r\nshared UserQuery = let\r\n  Source = src_uncrimeuntyped\r\nin\r\n  Source;\r\n"
+		}
+	}
+}
