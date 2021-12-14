@@ -37,8 +37,8 @@
 					"sink": {
 						"type": "AzureSqlSink",
 						"preCopyScript": "truncate table staging.countriesref_untyped;",
-						"writeBehavior": "insert",
-						"disableMetricsCollection": false
+						"disableMetricsCollection": false,
+						"writeBehavior": "insert"
 					},
 					"enableStaging": false,
 					"translator": {
